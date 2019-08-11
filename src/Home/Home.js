@@ -1,17 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Navbar from '../Navbar/Navbar.js'
+import './Home.css'
 
-class Home extends Component {
-    constructor(){
-        super()
-        this.state = {}
-    }
-    render() {
-        return (
-            <div>
-                 <h1 className='title' > Hello Wolrddd </h1>
-            </div>
-        );
-    }
-}
+const Home = () => {
+    return (
+        <div>
+            <Navbar/>
+            <h1 className='title' > Hello Wolrddd </h1>
+        </div>
+    );
+};
 
 export default Home;
