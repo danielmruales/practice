@@ -3,8 +3,8 @@ body {
   margin: 0;
 }
 
-h1 {
-  color: white;
+.title {
+  color: blue;
   text-align: center;
 }
 

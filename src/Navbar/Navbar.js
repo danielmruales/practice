@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 import './Navbar.css'
 
 const Navbar = () => {
@@ -7,10 +8,10 @@ const Navbar = () => {
             
             {/* Using ahref tags until I import links from the React router package */}
             
-            <a href='none' className='navBarTitle'>This is a Navbar</a>
-            <a href='none' className='listItem'>Item 1 </a>
-            <a href='none' className='listItem'>Item 2 </a>
-            <a href='none' className='listItem'>Item 3 </a>
+            <Link to='/' className='navBarTitle'>This is a Navbar</Link>
+            <Link to='/' className='listItem'>Item 1 </Link>
+            <Link to='/' className='listItem'>Item 2 </Link>
+            <Link to='/' className='listItem'>Item 3 </Link>
             
         </div>
     );
