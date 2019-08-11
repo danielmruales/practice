@@ -1,0 +1,17 @@
+.mainNavbarDiv {
+    background-color: black;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.navBarTitle {
+    
+    color: white;
+    
+    font-size: 1.7em
+}
+
+.listItem {
+    color: white;
+   font-size: 1.7em
+}
