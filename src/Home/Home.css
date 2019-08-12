@@ -1,6 +1,8 @@
 .title {
-    color: blue;
-    text-align: center;
-    margin-top: 100px
-  
+    color: whitesmoke;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center
   }
+
