@@ -6,3 +6,20 @@
     align-items: center
   }
 
+
+  .h {
+    content: "\210C";
+    zoom: 2;
+    color: darkred
+  }
+
+  .arrow {
+    zoom: 3;
+    color: black;
+}
+
+.rightArrow {
+  content: "\276F";
+  color: black;
+  zoom: 3;
+}
