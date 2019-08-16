@@ -6,6 +6,10 @@ class ReactTab extends Component {
     constructor(){
         super()
         this.state={
+            fName: '',
+            lName: '',
+            email: '',
+            phone: ''
 
         }
     }
@@ -17,10 +21,10 @@ class ReactTab extends Component {
                 <h1 className='mainTab'>React Bitches</h1>
                 <div className='formDiv' >
                     <form className='mainForm'>
-                         <input placeholder='First Name'/> 
-                         <input placeholder='Last Name'/> 
-                         <input placeholder='E-mail'/> 
-                         <input placeholder='Phone Number'/> 
+                         <input placeholder='First Name' type='text' name='fName'/> 
+                         <input placeholder='Last Name' type='text' name='lName'/> 
+                         <input placeholder='E-mail' type='email' name='email' /> 
+                         <input placeholder='Phone Number' type='number' name='phone'/> 
                          <button>Submit!</button>
                     </form>
                 </div>
