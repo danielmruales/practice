@@ -16,7 +16,7 @@ const Home = () => {
                     <span className='rightArrow'>&#10095;</span> 
                 </h1>
                 <Link to='/react'><AwesomeButton type="primary" >Cool Button!</AwesomeButton></Link>
-         
+                
             </div>
            
         </div>
