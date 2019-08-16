@@ -3,6 +3,13 @@ import Navbar from '../Navbar/Navbar.js'
 import './ReactTab.css'
 
 class ReactTab extends Component {
+    constructor(){
+        super()
+        this.state={
+
+        }
+    }
+
     render() {
         return (
             <div>
@@ -23,3 +30,4 @@ class ReactTab extends Component {
 }
 
 export default ReactTab;
+
