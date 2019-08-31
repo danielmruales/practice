@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 // import Navbar from '../Navbar/Navbar.js'
-import TextField from './inputs/TextField.js';
-import "./ReactTab.css";
+import TextField from './inputs/TextField/TextField.js';
+import FilePicker from './inputs/FilePicker/FilePicker.js';
+import "./FormWidget.css";
 
-class ReactTab extends Component {
+class FormWidget extends Component {
   constructor() {
     super();
     this.state = {
@@ -18,25 +19,28 @@ class ReactTab extends Component {
       },
       uploadFile: null,
       isSubmitted: false,
-      fileReader: null
+      fileReader: null,
+      buttonText: 'Submit',
+      fieldContainers: [],
     };
   }
 
   componentDidMount() {
     // TODO: remove this once form is initialized from widget in Clickfunnels
     // Comment out the below funtion if you want to test form without having a file picker
-    this.initializeForm(354, 0, {
+    this.initializeForm(354, 0, 'Submit Resume', {
       title: "resume-upload",
       label: "Resume Upload",
-      required: true
+      required: true,
     });
   }
 
   // TODO: initialize form from Clickfunnels widget
-  initializeForm = (coachId, campaignId, uploadFile) => {
+  initializeForm = (coachId, campaignId, buttonText, uploadFile) => {
     const newState = this.state;
     newState.coachId = coachId;
     newState.newLeadInfo.campaignId = campaignId;
+    newState.buttonText = buttonText;
     if (uploadFile !== null) {
       uploadFile.data = "";
       newState.uploadFile = uploadFile;
@@ -95,6 +99,22 @@ class ReactTab extends Component {
       });
   };
 
+  formIsValid = () => {
+    return this.state.fieldContainers
+      .every(val => val.isValid === true)
+  }
+
+  registerTextField = fieldContainer => {
+    const newFieldContainers = this.state.fieldContainers
+    const releventIndex = newFieldContainers.findIndex(val => val.id === fieldContainer.id)
+    if (releventIndex >= 0) {
+      newFieldContainers.splice(releventIndex, 1, fieldContainer)
+    } else {
+      newFieldContainers.push(fieldContainer)
+    }
+    this.setState({ fieldContainers: newFieldContainers })
+  }
+
   handleChange = e => {
     const newState = this.state;
     newState.newLeadInfo[e.target.name] = e.target.value;
@@ -102,26 +122,27 @@ class ReactTab extends Component {
   };
 
   onSelectFile = e => {
-    const newState = this.state;
+    const uploadFile = this.state.uploadFile;
     const data = e.target.files[0];
-    newState.uploadFile.value = data.name;
-    newState.uploadFile.data = data;
+    uploadFile.value = data.name;
+    uploadFile.data = data;
     const blob = data.name.split(".");
-    newState.uploadFile.type = blob[blob.length - 1];
+    uploadFile.type = blob[blob.length - 1];
+    this.setState({ uploadFile })
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    // TODO: form validation to make sure we have all the data we need
-    this.postLeadInfo();
-    const newState = this.state;
-    newState.isSubmitted = true;
-    this.setState(newState);
+    if (this.formIsValid()) {
+      this.postLeadInfo();
+      const newState = this.state;
+      newState.isSubmitted = true;
+      this.setState(newState);
+    }
   };
 
   render() {
     console.log(this.state);
-
     if (!this.state.isSubmitted) {
       return (
         <div>
@@ -133,6 +154,7 @@ class ReactTab extends Component {
                 name="givenName"
                 value={this.state.newLeadInfo.givenName}
                 handleChange={this.handleChange}
+                registerTextField={this.registerTextField}
                 required={ true }
               />
               <TextField
@@ -141,6 +163,7 @@ class ReactTab extends Component {
                 name="familyName"
                 value={this.state.newLeadInfo.familyName}
                 handleChange={this.handleChange}
+                registerTextField={this.registerTextField}
                 required={ true }
               />
               <TextField
@@ -149,6 +172,7 @@ class ReactTab extends Component {
                 name="email"
                 value={this.state.newLeadInfo.email}
                 handleChange={this.handleChange}
+                registerTextField={this.registerTextField}
                 required={ true }
               />
               <TextField
@@ -157,20 +181,27 @@ class ReactTab extends Component {
                 name="phone"
                 value={this.state.newLeadInfo.phone}
                 handleChange={this.handleChange}
+                registerTextField={this.registerTextField}
                 required={ false }
               />
-              <input
-                type="file"
-                ref="resumeUpload"
-                name="resumeUpload"
-                accept=".pdf, .doc, .docx"
-                onChange={this.onSelectFile}
-                required={this.state.uploadFile ? this.state.uploadFile.required : false}
+              <div
                 style={{
                   display: this.state.uploadFile ? '' : 'none'
                 }}
-              />
-              <button>Submit!</button>
+              >
+                <FilePicker
+                  label={this.state.uploadFile ? this.state.uploadFile.label : ''}
+                  value={this.state.uploadFile ? this.state.uploadFile.value : ''}
+                  name="resumeUpload"
+                  accept=".pdf, .doc, .docx"
+                  handleChange={this.onSelectFile}
+                  required={this.state.uploadFile ? this.state.uploadFile.required : false}
+                  registerTextField={this.registerTextField}
+                />
+              </div>
+              <div>
+                <button className={this.formIsValid() ? 'button' : 'button disabled'}>{this.state.buttonText}</button>
+              </div>
             </form>
           </div>
         </div>
@@ -180,4 +211,4 @@ class ReactTab extends Component {
   }
 }
 
-export default ReactTab;
+export default FormWidget;

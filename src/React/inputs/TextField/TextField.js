@@ -3,7 +3,7 @@ import "./TextField.css";
 import {
   emailIsValid,
   phoneNumberIsValid,
-} from './validation/validation';
+} from '../validation/validation';
 
 class TextField extends Component {
 
@@ -12,6 +12,22 @@ class TextField extends Component {
     this.state = {
       hasFocused: false,
     };
+  }
+
+  componentDidMount() {
+    this.props.registerTextField({
+      id: this.props.name,
+      isValid: this.isValid()
+    })
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value) {
+      this.props.registerTextField({
+        id: this.props.name,
+        isValid: this.isValid()
+      })
+    }
   }
 
   isValid = () => {
@@ -57,17 +73,25 @@ class TextField extends Component {
     return 'text-field invalid'
   }
 
+  label = () => {
+    if (this.props.required) {
+      return `*${this.props.label}`
+    }
+    return this.props.label
+  }
+
   render() {
     return (
       <div className="text-input-bounds">
         <div className="label">
-          { this.props.label }
+          { this.label() }
         </div>
         <input
           className={ this.textFieldClass() }
           placeholder={`Enter ${this.props.label.toLowerCase()}`}
           type={this.props.type}
           name={this.props.name}
+          ref={this.props.name}
           value={this.props.value}
           onChange={this.props.handleChange}
           required={this.props.required}
