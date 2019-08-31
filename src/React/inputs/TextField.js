@@ -7,6 +7,13 @@ import {
 
 class TextField extends Component {
 
+  constructor() {
+    super();
+    this.state = {
+      hasFocused: false,
+    };
+  }
+
   isValid = () => {
     const meetsValidRequirements = this.props.value.length > 0
     switch (this.props.type) {
@@ -36,6 +43,20 @@ class TextField extends Component {
     }
   }
 
+  textFieldClass = () => {
+    const isValid = this.isValid()
+    const hasFocused = this.state.hasFocused
+    if (hasFocused) {
+      if (isValid) return 'text-field'
+      return 'text-field invalid'
+    }
+    if (!this.props.value) {
+      return 'text-field'
+    }
+    if (isValid) return 'text-field'
+    return 'text-field invalid'
+  }
+
   render() {
     return (
       <div className="text-input-bounds">
@@ -43,13 +64,14 @@ class TextField extends Component {
           { this.props.label }
         </div>
         <input
-          className={ this.isValid() ? 'text-field' : 'text-field invalid' }
+          className={ this.textFieldClass() }
           placeholder={`Enter ${this.props.label.toLowerCase()}`}
           type={this.props.type}
           name={this.props.name}
           value={this.props.value}
           onChange={this.props.handleChange}
           required={this.props.required}
+          onFocus={ () => this.setState({ hasFocused: true }) }
         />
       </div>
     )
