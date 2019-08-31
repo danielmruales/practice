@@ -31,7 +31,7 @@ class FormWidget extends Component {
     this.initializeForm(354, 0, 'Submit Resume', {
       title: "resume-upload",
       label: "Resume Upload",
-      required: true,
+      required: false,
     });
   }
 
@@ -116,18 +116,25 @@ class FormWidget extends Component {
   }
 
   handleChange = e => {
-    const newState = this.state;
-    newState.newLeadInfo[e.target.name] = e.target.value;
-    this.setState(newState);
+    const newState = this.state
+    newState.newLeadInfo[e.target.name] = e.target.value
+    this.setState(newState)
   };
 
   onSelectFile = e => {
-    const uploadFile = this.state.uploadFile;
-    const data = e.target.files[0];
-    uploadFile.value = data.name;
-    uploadFile.data = data;
-    const blob = data.name.split(".");
-    uploadFile.type = blob[blob.length - 1];
+    const uploadFile = this.state.uploadFile
+    const data = e.target.files[0]
+    if (data) {
+      uploadFile.value = data.name
+      uploadFile.data = data
+      const blob = data.name.split(".")
+      uploadFile.type = blob[blob.length - 1]
+      this.setState({ uploadFile })
+    } else {
+      uploadFile.value = null
+      uploadFile.data = null
+      uploadFile.type = null
+    }
     this.setState({ uploadFile })
   };
 
