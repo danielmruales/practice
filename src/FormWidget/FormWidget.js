@@ -22,6 +22,7 @@ class FormWidget extends Component {
       fileReader: null,
       buttonText: 'Submit',
       fieldContainers: [],
+      errorMessage: '',
     };
   }
 
@@ -56,9 +57,10 @@ class FormWidget extends Component {
         url: this.state.uploadFile.putUrl,
         data: this.state.uploadFile.data,
         headers: { "content-type": "binary/octet-stream" }
-      }).then(response => {
-        console.log("upload", response);
-        console.log("access url", this.state.uploadFile.accessUrl);
+      })
+      .catch(e => {
+        console.log(e)
+        this.setState({errorMessage: 'Error uploading file. Please try again.'})
       });
     }
     axios
@@ -67,11 +69,11 @@ class FormWidget extends Component {
         this.state.newLeadInfo
       )
       .then(res => {
-        console.log("success:", res);
+        this.setState({ isSubmitted: true });
       })
       .catch(e => {
-        // TODO: handle error
         console.log(e);
+        this.setState({errorMessage: 'Error submitting form. Please try again.'})
       });
   };
 
@@ -94,8 +96,8 @@ class FormWidget extends Component {
         this.setState(newState);
       })
       .catch(e => {
-        // TODO: handle error
         console.log(e);
+        this.setState({errorMessage: 'Error getting a file URL. Upload will not be possible. Please try again.'})
       });
   };
 
@@ -142,9 +144,6 @@ class FormWidget extends Component {
     e.preventDefault();
     if (this.formIsValid()) {
       this.postLeadInfo();
-      const newState = this.state;
-      newState.isSubmitted = true;
-      this.setState(newState);
     }
   };
 
@@ -207,6 +206,14 @@ class FormWidget extends Component {
                 />
               </div>
               <div>
+                <div
+                  className="error-message"
+                  style={{
+                    display: this.state.errorMessage ? '' : 'none'
+                  }}
+                >
+                  {this.state.errorMessage}
+                </div>
                 <button className={this.formIsValid() ? 'button' : 'button disabled'}>{this.state.buttonText}</button>
               </div>
             </form>

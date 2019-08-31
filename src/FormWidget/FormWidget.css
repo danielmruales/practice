@@ -42,3 +42,9 @@
   color: white;
   box-shadow: none;
 }
+
+.error-message {
+  color: #E5584A;
+  font-size: 14px;
+  margin-top: 12px;
+}
