@@ -221,7 +221,7 @@ class FormWidget extends Component {
         </div>
       );
     }
-    return <div>Thank You</div>;
+    return <div className="thank-you">Thanks! A coach will contact you shortly with more information.</div>;
   }
 }
 

@@ -48,3 +48,17 @@
   font-size: 14px;
   margin-top: 12px;
 }
+
+.thank-you {
+  background-color: #FBFDFF;
+  border-color: #A7B3C1;
+  padding: 24px 16px;
+  margin: 12px;
+  border-width: 1px;
+  box-sizing: border-box;
+  border-style: solid;
+  text-align: center;
+  border-radius: 16px;
+  color: #727E8C;
+  font-weight: 600;
+}
