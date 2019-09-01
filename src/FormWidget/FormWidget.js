@@ -26,15 +26,15 @@ class FormWidget extends Component {
     };
   }
 
-  componentDidMount() {
-    // TODO: remove this once form is initialized from widget in Clickfunnels
-    // Comment out the below funtion if you want to test form without having a file picker
-    this.initializeForm(354, 0, 'Submit Resume', {
-      title: "resume-upload",
-      label: "Resume Upload",
-      required: false,
-    });
-  }
+  // componentDidMount() {
+  //   // TODO: remove this once form is initialized from widget in Clickfunnels
+  //   // Comment out the below funtion if you want to test form without having a file picker
+  //   this.initializeForm(354, 0, 'Submit Resume', {
+  //     title: "resume-upload",
+  //     label: "Resume Upload",
+  //     required: false,
+  //   });
+  // }
 
   // TODO: initialize form from Clickfunnels widget
   initializeForm = (coachId, campaignId, buttonText, uploadFile) => {
