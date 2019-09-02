@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-// import Navbar from '../Navbar/Navbar.js'
 import TextField from './inputs/TextField/TextField.js';
 import FilePicker from './inputs/FilePicker/FilePicker.js';
 import "./FormWidget.css";
