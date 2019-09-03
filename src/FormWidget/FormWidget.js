@@ -25,15 +25,36 @@ class FormWidget extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   // TODO: remove this once form is initialized from widget in Clickfunnels
-  //   // Comment out the below funtion if you want to test form without having a file picker
-  //   this.initializeForm(354, 0, 'Submit Resume', {
-  //     title: "resume-upload",
-  //     label: "Resume Upload",
-  //     required: false,
-  //   });
-  // }
+  getUrlVars = () => {
+    var vars = {};
+    // eslint-disable-next-line no-unused-vars
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+  }
+  getDecodedUrlParam = (param) => {
+    const urlVar = this.getUrlVars()[param]
+    return urlVar ? decodeURIComponent(urlVar) : null
+  }
+  componentDidMount() {
+    // TODO: remove this once form is initialized from widget in Clickfunnels
+    // Comment out the below funtion if you want to test form without having a file picker
+    const coachId = this.getDecodedUrlParam('coachid');
+    const campaignId = this.getDecodedUrlParam('campaignid');
+    const submitButtonText = this.getDecodedUrlParam('submittext');
+    const linkTitle = this.getDecodedUrlParam('linktitle');
+    const linkLabel = this.getDecodedUrlParam('linklabel');
+    const linkRequired = this.getDecodedUrlParam('linkrequired');
+    const linkObj = linkTitle
+      ? {
+        title: linkTitle,
+        label: linkLabel,
+        required: Boolean(linkRequired),
+      }
+      : null;
+    this.initializeForm(coachId, campaignId, submitButtonText, linkObj);
+  }
 
   // TODO: initialize form from Clickfunnels widget
   initializeForm = (coachId, campaignId, buttonText, uploadFile) => {
