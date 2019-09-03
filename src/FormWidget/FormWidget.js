@@ -38,8 +38,6 @@ class FormWidget extends Component {
     return urlVar ? decodeURIComponent(urlVar) : null
   }
   componentDidMount() {
-    // TODO: remove this once form is initialized from widget in Clickfunnels
-    // Comment out the below funtion if you want to test form without having a file picker
     const coachId = this.getDecodedUrlParam('coachid');
     const campaignId = this.getDecodedUrlParam('campaignid');
     const submitButtonText = this.getDecodedUrlParam('submittext');
@@ -50,7 +48,7 @@ class FormWidget extends Component {
       ? {
         title: linkTitle,
         label: linkLabel,
-        required: Boolean(linkRequired),
+        required: linkRequired === 'true',
       }
       : null;
     this.initializeForm(coachId, campaignId, submitButtonText, linkObj);
