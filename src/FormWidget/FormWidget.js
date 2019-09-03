@@ -85,7 +85,7 @@ class FormWidget extends Component {
     }
     axios
       .post(
-        `https://stage.api.soar.com/v1/CRM/Lead/${this.state.coachId}`,
+        `https://api.soar.com/v1/CRM/Lead/${this.state.coachId}`,
         this.state.newLeadInfo
       )
       .then(res => {
@@ -100,7 +100,7 @@ class FormWidget extends Component {
   getFileUrl = async () => {
     await axios
       .get(
-        `https://stage.api.soar.com/v1/Asset/upload/${this.state.uploadFile.title}.${this.state.uploadFile.type}`
+        `https://api.soar.com/v1/Asset/upload/${this.state.uploadFile.title}.${this.state.uploadFile.type}`
       )
       .then(res => {
         console.log("success:", res);
