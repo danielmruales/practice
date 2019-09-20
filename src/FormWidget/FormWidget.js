@@ -8,7 +8,7 @@ class FormWidget extends Component {
   constructor() {
     super();
     this.state = {
-      coachId: 354,
+      coachId: 6512,
       newLeadInfo: {
         givenName: "",
         familyName: "",
@@ -16,7 +16,9 @@ class FormWidget extends Component {
         phone: "",
         campaignId: 0
       },
+      theme: 'light',
       uploadFile: null,
+      isLoading: false,
       isSubmitted: false,
       fileReader: null,
       buttonText: 'Submit',
@@ -38,30 +40,32 @@ class FormWidget extends Component {
     return urlVar ? decodeURIComponent(urlVar) : null
   }
   componentDidMount() {
-    // TODO: remove this once form is initialized from widget in Clickfunnels
-    // Comment out the below funtion if you want to test form without having a file picker
     const coachId = this.getDecodedUrlParam('coachid');
     const campaignId = this.getDecodedUrlParam('campaignid');
     const submitButtonText = this.getDecodedUrlParam('submittext');
     const linkTitle = this.getDecodedUrlParam('linktitle');
     const linkLabel = this.getDecodedUrlParam('linklabel');
     const linkRequired = this.getDecodedUrlParam('linkrequired');
+    const theme = this.getDecodedUrlParam('theme');
     const linkObj = linkTitle
       ? {
         title: linkTitle,
         label: linkLabel,
-        required: Boolean(linkRequired),
+        required: linkRequired === 'true',
       }
       : null;
-    this.initializeForm(coachId, campaignId, submitButtonText, linkObj);
+    this.initializeForm(coachId, campaignId, submitButtonText, theme, linkObj);
   }
 
   // TODO: initialize form from Clickfunnels widget
-  initializeForm = (coachId, campaignId, buttonText, uploadFile) => {
+  initializeForm = (coachId, campaignId, buttonText, theme, uploadFile) => {
     const newState = this.state;
     newState.coachId = coachId;
     newState.newLeadInfo.campaignId = campaignId;
     newState.buttonText = buttonText;
+    if (theme) {
+      newState.theme = theme;
+    }
     if (uploadFile !== null) {
       uploadFile.data = "";
       newState.uploadFile = uploadFile;
@@ -80,7 +84,7 @@ class FormWidget extends Component {
       })
       .catch(e => {
         console.log(e)
-        this.setState({errorMessage: 'Error uploading file. Please try again.'})
+        this.setState({errorMessage: 'Error uploading file. Please try again.', isLoading: false})
       });
     }
     axios
@@ -93,7 +97,7 @@ class FormWidget extends Component {
       })
       .catch(e => {
         console.log(e);
-        this.setState({errorMessage: 'Error submitting form. Please try again.'})
+        this.setState({errorMessage: 'Error submitting form. Please try again.', isLoading: false})
       });
   };
 
@@ -117,7 +121,7 @@ class FormWidget extends Component {
       })
       .catch(e => {
         console.log(e);
-        this.setState({errorMessage: 'Error getting a file URL. Upload will not be possible. Please try again.'})
+        this.setState({errorMessage: 'Error getting a file URL. Upload will not be possible. Please try again.', isLoading: false})
       });
   };
 
@@ -162,7 +166,8 @@ class FormWidget extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    if (this.formIsValid()) {
+    if (this.formIsValid() && !this.state.isLoading) {
+      this.setState({isLoading: true});
       this.postLeadInfo();
     }
   };
@@ -173,7 +178,7 @@ class FormWidget extends Component {
       return (
         <div>
           <div className="formDiv">
-            <form className="mainForm" onSubmit={this.handleSubmit}>
+            <form className={`mainForm ${this.state.theme}`} onSubmit={this.handleSubmit}>
               <TextField
                 type="text"
                 label="First Name"
@@ -234,7 +239,12 @@ class FormWidget extends Component {
                 >
                   {this.state.errorMessage}
                 </div>
-                <button className={this.formIsValid() ? 'button' : 'button disabled'}>{this.state.buttonText}</button>
+                <button
+                  className={this.formIsValid() ? 'button' : 'button disabled'}
+                  style={{
+                    display: !this.state.isLoading ? '' : 'none'
+                  }}
+                >{this.state.buttonText}</button>
               </div>
             </form>
           </div>
