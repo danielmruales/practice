@@ -170,6 +170,7 @@ class FormWidget extends Component {
       this.setState({isLoading: true});
       this.postLeadInfo();
     }
+
   };
 
   render() {
@@ -251,7 +252,11 @@ class FormWidget extends Component {
         </div>
       );
     }
-    return <div className="thank-you">Thanks! A coach will contact you shortly with more information.</div>;
+    return <div className="thank-you">Thanks! A coach will contact you shortly with more information. 
+    Click 
+    <a target="_blank" href="https://cdn2.hubspot.net/hubfs/3856083/CEO%20Engagement%20Checklist.pdf" 
+    rel="noopener noreferrer" className="thank-you">Here</a> 
+    to view the pdf</div>;
   }
 }
 
