@@ -8,7 +8,7 @@ class FormWidget extends Component {
   constructor() {
     super();
     this.state = {
-      coachId: 6512,
+      coachId: 6512, // Dummy ID, this is Ryan Bliss' coachId
       newLeadInfo: {
         givenName: "",
         familyName: "",
@@ -64,12 +64,17 @@ class FormWidget extends Component {
     this.initializeForm(coachId, campaignId, submitButtonText, theme, linkObj);
   }
 
-  // TODO: initialize form from Clickfunnels widget
   initializeForm = (coachId, campaignId, buttonText, theme, uploadFile) => {
     const newState = this.state;
-    newState.coachId = coachId;
-    newState.newLeadInfo.campaignId = campaignId;
-    newState.buttonText = buttonText;
+    if (coachId) {
+      newState.coachId = coachId;
+    }
+    if (campaignId) {
+      newState.newLeadInfo.campaignId = campaignId;
+    }
+    if (buttonText) {
+      newState.buttonText = buttonText;
+    }
     if (theme) {
       newState.theme = theme;
     }
@@ -175,7 +180,11 @@ class FormWidget extends Component {
     e.preventDefault();
     if (this.formIsValid() && !this.state.isLoading) {
       this.setState({isLoading: true});
-      this.postLeadInfo();
+      if (this.state.newLeadInfo.campaignId > 0) {
+        this.postLeadInfo();
+      } else {
+        this.setState({ isSubmitted: true });
+      }
     }
 
   };
