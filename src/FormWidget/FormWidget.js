@@ -16,6 +16,13 @@ class FormWidget extends Component {
         phone: "",
         campaignId: 0
       },
+
+      //Potentially need to replace the above object with this one below?
+    //   leadSource : {
+    //     type : "campaign",
+    //    label : "Test campaign",
+    //    data : ""
+    // },
       theme: 'light',
       uploadFile: null,
       isLoading: false,
